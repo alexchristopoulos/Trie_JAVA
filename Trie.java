@@ -1,5 +1,5 @@
 public class Trie
-{
+{//Trie in 100LOC
 	private Node root;
 	
 	public Trie(){
@@ -25,10 +25,8 @@ public class Trie
 			root.AddNewWord(word);
 		}
 	}
-	
 	private Node RecurseInsert(Node current,int iter,char[] chars,String word)
 	{
-		
 		if(current==null)
 		{
 			current = new Node();
@@ -45,37 +43,19 @@ public class Trie
 			}
 		}else
 		{
-			if(current.edges.containsKey(chars[iter]))
+			if(iter<chars.length-1)
 			{
-				
-				if(iter<chars.length-1)
-				{
-					Node temp = new Node();
-					temp.edges.put(chars[iter], RecurseInsert(current.edges.get(chars[iter]),++iter,chars,word) );
-					current.update(temp);
-					return current;
-				}else
-				{
-					current.AddNewWord(word);
-					return current;
-				}
+				Node temp = new Node();
+				temp.edges.put(chars[iter], RecurseInsert(current.edges.get(chars[iter]),++iter,chars,word) );
+				current.update(temp);
+				return current;
 			}else
 			{
-				if(iter<chars.length-1)
-				{
-					Node temp = new Node();
-					temp.edges.put(chars[iter], RecurseInsert(current.edges.get(chars[iter]),++iter,chars,word) );
-					current.update(temp);
-					return current;
-				}else
-				{
-					current.AddNewWord(word);
-					return current;
-				}
+				current.AddNewWord(word);
+				return current;
 			}
 		}
 	}
-	
 	public String Get(String word)
 	{//returns in String of type 'word;word_frequency' the result
 		String response=word+";0";
@@ -100,5 +80,4 @@ public class Trie
 		}
 		return response;
 	}
-	
 }
