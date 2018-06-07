@@ -1,10 +1,17 @@
+import java.util.ArrayList;
+
 public class Trie
-{//Trie in 100LOC
+{
+	
 	private Node root;
+	private int word_count=0;
+	private ArrayList<String> allWords;
 	
 	public Trie(){
+		allWords = new ArrayList<String>();
 		root = new Node();
 	}
+	
 	public void Insert(String word)
 	{
 		char[] chars = word.toCharArray();
@@ -22,9 +29,11 @@ public class Trie
 			}
 		}else
 		{//of size 1
-			root.AddNewWord(word);
+			boolean tmp = root.AddNewWord(word);
+			if(tmp==true) {allWords.add(word);}++word_count;
 		}
 	}
+	
 	private Node RecurseInsert(Node current,int iter,char[] chars,String word)
 	{
 		if(current==null)
@@ -38,7 +47,8 @@ public class Trie
 				return current;
 			}else
 			{
-				current.AddNewWord(word);
+				boolean tmp = current.AddNewWord(word);
+				if(tmp==true) {allWords.add(word);}++word_count;
 				return current;
 			}
 		}else
@@ -51,14 +61,17 @@ public class Trie
 				return current;
 			}else
 			{
-				current.AddNewWord(word);
+				boolean tmp = current.AddNewWord(word);
+				if(tmp==true) {allWords.add(word);}++word_count;
 				return current;
 			}
 		}
 	}
-	public String Get(String word)
+	
+	public int Get(String word)
 	{//returns in String of type 'word;word_frequency' the result
-		String response=word+";0";
+		//String response=word+";0";
+		int response=0;
 		char[] chars = word.toCharArray();
 		Node current = root;
 		for(int i=0;i<chars.length;i++)
@@ -67,17 +80,28 @@ public class Trie
 			{
 				if(current.words.contains(word))
 				{
-					response = word+";"+current.word_freq.get(word).toString();
+					response = current.word_freq.get(word);
 				}
 			}else
 			{
 				if(!current.edges.containsKey(chars[i]))
 				{
-					return word+";0";
+					return 0;
 				}
 			}
 			current = current.edges.get(chars[i]);
 		}
 		return response;
 	}
+	
+	public ArrayList<String> GetAllExistingWords()
+	{
+		return this.allWords;
+	}
+	
+	public int GetWordCount()
+	{
+		return this.word_count;
+	}
+	
 }
