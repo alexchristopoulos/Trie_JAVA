@@ -13,19 +13,18 @@ public class Node
 		word_freq = new HashMap<String,Integer>();
 	}
 	
-	public void AddNewWord(String word)
+	public boolean AddNewWord(String word)
 	{
-		
 		if(this.word_freq.containsKey(word))
-		{
+		{//existing
 			
 			int curr_freq = word_freq.get(word);
-			word_freq.replace(word, ++curr_freq);
+			word_freq.replace(word, ++curr_freq);return false;
 		}else
-		{
+		{//new entry
 			
 			words.add(word);
-			word_freq.put(word,1);
+			word_freq.put(word,1);return true;
 		}
 	}
 	
